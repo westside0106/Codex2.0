@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hot Wheels Collection</title>
+</head>
+<body>
+<h1>Add Model</h1>
+<form action="/collect_form" method="post">
+    Toy Number: <input type="text" name="toy_number" />
+    Quantity: <input type="number" name="quantity" value="1" />
+    <button type="submit">Add</button>
+</form>
+<h2>Bulk Add</h2>
+<form action="/collect_bulk" method="post">
+    <textarea name="text" rows="5" cols="40"></textarea>
+    <button type="submit">Import</button>
+</form>
+</body>
+</html>
