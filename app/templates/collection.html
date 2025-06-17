@@ -1,20 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head><title>Collection</title></head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 <h1>My Collection</h1>
-<table border="1">
-<tr><th>Toy Number</th><th>Name</th><th>Year</th><th>Series</th><th>Image</th><th>Quantity</th></tr>
-{% for row in rows %}
-<tr>
-<td>{{ row.toy_number }}</td>
-<td>{{ row.name }}</td>
-<td>{{ row.year }}</td>
-<td>{{ row.series }}</td>
-<td><img src="{{ row.image_url }}" width="50"/></td>
-<td>{{ row.quantity }}</td>
-</tr>
-{% endfor %}
+<form method="get" class="mb-3">
+  <input class="form-control" type="text" name="q" placeholder="Search" value="{{ q or '' }}">
+</form>
+<p>Total Models: {{ total }}</p>
+<table class="table table-striped table-sm">
+  <thead>
+    <tr>
+      <th>Toy</th><th>Name</th><th>Year</th><th>Series</th><th>Image</th><th>Qty</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr>
+      <td>{{ row.toy_number }}</td>
+      <td>{{ row.name }}</td>
+      <td>{{ row.year }}</td>
+      <td>{{ row.series }}</td>
+      <td><img src="{{ row.image_url }}" width="50"></td>
+      <td>{{ row.quantity }}</td>
+      <td>
+        <form action="/adjust_quantity" method="post" class="d-inline">
+          <input type="hidden" name="toy_number" value="{{ row.toy_number }}">
+          <input type="hidden" name="delta" value="-1">
+          <button class="btn btn-sm btn-outline-secondary">-</button>
+        </form>
+        <form action="/adjust_quantity" method="post" class="d-inline">
+          <input type="hidden" name="toy_number" value="{{ row.toy_number }}">
+          <input type="hidden" name="delta" value="1">
+          <button class="btn btn-sm btn-outline-secondary">+</button>
+        </form>
+        <form action="/delete_model" method="post" class="d-inline" onsubmit="return confirm('Delete?');">
+          <input type="hidden" name="toy_number" value="{{ row.toy_number }}">
+          <button class="btn btn-sm btn-outline-danger">X</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
-</body>
-</html>
+<a href="/download_csv" class="btn btn-secondary">Download CSV</a>
+<a href="/json" class="btn btn-secondary">Download JSON</a>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Progress</h1>
+<table class="table table-sm">
+<thead><tr><th>Series/Year</th><th>Progress</th></tr></thead>
+<tbody>
+{% for key, v in progress.items() %}
+<tr>
+  <td>{{ key }}</td>
+  <td>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width: {{ (v.owned / v.total * 100) | round(1) }}%" aria-valuenow="{{ v.owned }}" aria-valuemin="0" aria-valuemax="{{ v.total }}">{{ v.owned }}/{{ v.total }}</div>
+    </div>
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}
